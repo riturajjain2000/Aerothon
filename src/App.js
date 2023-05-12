@@ -11,6 +11,8 @@ import { auth } from "./firebase";
 
 import "./App.css";
 
+import './App.css';
+import Dashboard from './components/Airline/Dashboard';
 
 function App() {
   const [userData, setUserData] = useState({
@@ -31,6 +33,7 @@ function App() {
   return (
 
     <div className="App">
+      <Dashboard />
       <Router>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -47,6 +50,7 @@ function App() {
       </Router>
     </div>
 
+    
   );
 }
 
