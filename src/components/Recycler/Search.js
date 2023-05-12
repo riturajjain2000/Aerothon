@@ -92,15 +92,13 @@ const SearchData = ({ data, setSearchResults }) => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     const results = data.filter((item) => {
-      return (
-        item["Part Name"].toLowerCase().includes(query) ||
-        item["Material Composition"].toLowerCase().includes(query) ||
-        item["Age (years)"].toLowerCase().includes(query) ||
-        item["Condition"].toLowerCase().includes(query) ||
-        item["Location"].toLowerCase().includes(query) ||
-        item["Manufacturer"].toLowerCase().includes(query) ||
-        item["Aircraft Model"].toLowerCase().includes(query)
-      );
+      return (item['Part Name'].toLowerCase().includes(query)  ||
+      item['Material Composition'].toLowerCase().includes(query) ||
+      item['Age (years)'].toLowerCase().includes(query) ||
+      item['Condition'].toLowerCase().includes(query) ||
+      item['Location'].toLowerCase().includes(query) ||
+      item['Manufacturer'].toLowerCase().includes(query) ||
+      item['Aircraft Model'].toLowerCase().includes(query));
     });
     setSearchResults(results);
   };
@@ -109,17 +107,11 @@ const SearchData = ({ data, setSearchResults }) => {
 };
 
 const Search = () => {
-  
-  const filteredData = Dataset.filter((item) => {
-    return item['Manufacturer'].includes('Airbus') ; // add username inside includes
-  });
-
-  const [searchResults, setSearchResults] = useState(filteredData);
-  
+  const [searchResults, setSearchResults] = useState(Dataset);
 
   return (
     <div>
-      <SearchData data={filteredData} setSearchResults={setSearchResults} />
+      <SearchData data={Dataset} setSearchResults={setSearchResults} />
       <Table data={searchResults} />
     </div>
   );

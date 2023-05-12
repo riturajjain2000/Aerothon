@@ -2,10 +2,10 @@ import React from "react";
 import Search from "./Search";
 import Metrics from "./Metrics";
 
-function Dashboard(props) {
+function Dashboard() {
   return (
     <div>
-      <Search props={props} />
+      <Search />
       <Metrics />
     </div>
   );

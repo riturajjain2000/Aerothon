@@ -34,7 +34,7 @@ function AirlineHome(props) {
       <br />
 
       <h2>
-        {props.userData.name ? `Welcome - ${props.userData.name}` : "NAME"}
+        {props.userData.name ? `Welcome - ${props.userData.name}` : "Airbus"}
       </h2>
       <h2>Aircraft Manufacturer / Airline</h2>
       <button onClick={handleLogout}>Log Out</button>
