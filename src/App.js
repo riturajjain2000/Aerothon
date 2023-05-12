@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -9,6 +10,7 @@ import Signup from "./screens/SignUp/Signup";
 import { auth } from "./firebase";
 
 import "./App.css";
+
 
 function App() {
   const [userData, setUserData] = useState({
@@ -27,6 +29,7 @@ function App() {
   }, []);
 
   return (
+
     <div className="App">
       <Router>
         <Routes>
@@ -43,6 +46,7 @@ function App() {
         </Routes>
       </Router>
     </div>
+
   );
 }
 

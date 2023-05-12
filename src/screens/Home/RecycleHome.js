@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
+import Search from "../../components/Search";
 
 function RecycleHome(props) {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function RecycleHome(props) {
   return (
     <div>
       <div>
+        <Search />
         <h1>
           <Link to="/login">Login</Link>
         </h1>
