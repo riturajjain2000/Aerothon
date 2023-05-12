@@ -1,0 +1,74 @@
+import React, { useState } from "react";
+
+const data = [
+  {
+    "Part Name": "Engine",
+    "Material Composition": "Aluminum",
+    "Age (years)": "42",
+    "Condition": "New",
+    "Location": "North America",
+    "Manufacturer": "Boeing",
+    "Aircraft Model": "Citation X"
+  },
+  // Import this from the Dataset
+];
+
+const ListItem = ({ item }) => (
+  <div>
+    <h3>{item["Part Name"]}</h3>
+    <p>{`Material Composition: ${item["Material Composition"]}`}</p>
+    <p>{`Age (years): ${item["Age (years)"]}`}</p>
+    <p>{`Condition: ${item["Condition"]}`}</p>
+    <p>{`Location: ${item["Location"]}`}</p>
+    <p>{`Manufacturer: ${item["Manufacturer"]}`}</p>
+    <p>{`Aircraft Model: ${item["Aircraft Model"]}`}</p>
+  </div>
+);
+
+const List = ({ items }) => (
+  <div>
+    {items.map((item, index) => (
+      <ListItem key={index} item={item} />
+    ))}
+  </div>
+);
+
+const SearchData = ({ items, onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    onSearch(event.target.value);
+  };
+
+  return (
+    <div>
+      <input type="text" value={searchTerm} onChange={handleSearch} />
+      <button onClick={() => onSearch(searchTerm)}>Search</button>
+    </div>
+  );
+};
+
+const Search = () => {
+  const [searchResults, setSearchResults] = useState(data);
+
+  const handleSearch = (searchTerm) => {
+    const results = data.filter((item) =>
+      Object.values(item)
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+  };
+
+  return (
+    <div>
+      <h1>Aircraft Parts List</h1>
+      <SearchData items={data} onSearch={handleSearch} />
+      <List items={searchResults} />
+    </div>
+  );
+};
+
+export default Search;
