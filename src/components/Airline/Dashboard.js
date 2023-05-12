@@ -1,5 +1,5 @@
 import React from "react";
-import Search from "./Table";
+import Search from "./Search";
 import Metrics from "./Metrics";
 import { Config } from "../../getConfig";
 

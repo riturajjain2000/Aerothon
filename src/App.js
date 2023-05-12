@@ -11,7 +11,6 @@ import { auth } from "./firebase";
 
 import "./App.css";
 
-import './App.css';
 import Dashboard from './components/Airline/Dashboard';
 
 function App() {

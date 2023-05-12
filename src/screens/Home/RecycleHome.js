@@ -1,7 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
-import Search from "../../components/Search";
+import Search from "../../components/Airline/Search";
+
 
 function RecycleHome(props) {
   const navigate = useNavigate();
