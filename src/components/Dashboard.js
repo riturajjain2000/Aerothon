@@ -8,7 +8,13 @@ function Dashboard() {
   const [efficiencyMetrics, setEfficiencyMetrics] = useState([]);
 
   useEffect(() => {
-   //get data here from the Dataset
+    axios.get('/api/dashboard').then(response => {
+      setRecyclingRate(response.data.recyclingRate);
+      setCarbonFootprintReduction(response.data.carbonFootprintReduction);
+      setEfficiencyMetrics(response.data.efficiencyMetrics);
+    }).catch(error => {
+      console.log(error);
+    });
   }, []);
 
   useEffect(() => {
