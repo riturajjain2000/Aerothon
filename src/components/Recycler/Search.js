@@ -21,7 +21,7 @@ const Table = () => {
           const obj = firebaseData[key];
           Object.keys(obj).forEach((prop) => {
             if (!isNaN(obj[prop])) {
-              obj[prop] = Number.parseFloat(obj[prop]).toFixed(2);
+              obj[prop] =  Math.round(obj[prop] * 100) / 100;
             }
           });
           return {
