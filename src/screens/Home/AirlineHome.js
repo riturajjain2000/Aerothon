@@ -19,7 +19,7 @@ function AirlineHome(props) {
   return (
     <div>
       <div>
-      <Dashboard />
+        <Dashboard userData={props.userData} />
         <h1>
           <Link to="/login">Login</Link>
         </h1>

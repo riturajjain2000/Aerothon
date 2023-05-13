@@ -5,7 +5,7 @@ import Metrics from "./Metrics";
 function Dashboard(props) {
   return (
     <div>
-      <Search props={props} />
+      <Search userData={props.userData} />
       <Metrics />
     </div>
   );

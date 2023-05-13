@@ -108,9 +108,10 @@ const SearchData = ({ data, setSearchResults }) => {
   return <input type="text" placeholder="Search..." onChange={handleSearch} />;
 };
 
-const Search = () => {
+const Search = (props) => {
+  console.log(props.userData.name);
   const filteredData = Dataset.filter((item) => {
-    return item["Manufacturer"].includes("Airbus"); // add username inside includes
+    return item["Manufacturer"].includes("Airbus"); //props.userData.name    // add username inside includes
   });
 
   const [searchResults, setSearchResults] = useState(filteredData);
