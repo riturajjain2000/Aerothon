@@ -8,12 +8,26 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TablePagination,
 } from "@mui/material";
 
+const rowsPerPageOptions = [10, 25, 50];
 const Tables = () => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
   const [data, setData] = useState([]);
   const [fetch, setFetch] = useState(false);
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
     const db = getDatabase();
@@ -139,15 +153,26 @@ const Tables = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                {columns.map((column) => (
-                  <TableCell key={column}>{item[column]}</TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
+        {sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+          
+            <TableRow key={index}>
+              {columns.map((column) => (
+                <TableCell key={column}>{item[column]}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
         </Table>
+
+        <TablePagination
+          rowsPerPageOptions={rowsPerPageOptions}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
       </TableContainer>
     </>
   );
