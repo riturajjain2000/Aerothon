@@ -4,6 +4,8 @@ import { getAuth, signOut } from "firebase/auth";
 import Dashboard from "../../components/Airline/Dashboard";
 import styles from "./AirlineHome.module.css";
 
+import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
+
 function AirlineHome(props) {
   const navigate = useNavigate();
 
@@ -20,6 +22,13 @@ function AirlineHome(props) {
   return (
     <div className={styles.container}>
       <div className={styles.profileContainer}>
+        <h1 className={styles.logoText}>
+          S U S{" "}
+          <span>
+            <AirplanemodeActiveIcon color="secondary" sx={{ fontSize: 30 }} />
+          </span>{" "}
+          A I N
+        </h1>
         <h2 className={styles.nameContainer}>
           {props.userData.name ? `Welcome - ${props.userData.name}` : "Airbus"}
         </h2>

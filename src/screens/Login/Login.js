@@ -5,6 +5,7 @@ import { storeData, fetchData } from "../../util/http";
 
 import InputControl from "../../components/InputControl/InputControl";
 import { auth } from "../../firebase";
+import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 
 import styles from "./Login.module.css";
 
@@ -46,7 +47,14 @@ function Login(props) {
   return (
     <div className={styles.container}>
       <div className={styles.innerBox}>
-        <h1 className={styles.heading}>Login</h1>
+        <h1 className={styles.logoText}>
+          S U S{" "}
+          <span>
+            <AirplanemodeActiveIcon color="secondary" sx={{ fontSize: 30 }} />
+          </span>{" "}
+          A I N
+        </h1>
+        {/* <h1 className={styles.heading}>Login</h1> */}
 
         <InputControl
           label="Email"

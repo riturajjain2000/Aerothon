@@ -1,6 +1,12 @@
 .container {
   background: linear-gradient(to right, #9900ff, #cc80ff);
   padding: 20px;
+  font-family: "Roboto", sans-serif;
+}
+.logoText {
+  font-size: 35px;
+  color: linear-gradient(to right, #9900ff, #cc80ff);
+  font-family: "Poppins", sans-serif;
 }
 .profileContainer {
   width: 50%;

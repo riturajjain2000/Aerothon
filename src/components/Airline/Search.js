@@ -61,7 +61,7 @@ const Table = ({ data }) => {
   };
 
   return (
-    <table>
+    <table className={styles.tableContainer}>
       <thead>
         <tr>
           {columns.map((column) => (
@@ -79,9 +79,13 @@ const Table = ({ data }) => {
       <tbody>
         {sortedData.map((item, index) => (
           <tr key={index}>
-            {columns.map((column) => (
-              <td key={column}>{item[column]}</td>
-            ))}
+            {columns.map((column) => {
+              if (!isNaN(item[column])) {
+                const num = Math.round(item[column] * 100) / 100;
+                return <td key={column}>{num}</td>;
+              }
+              return <td key={column}>{item[column]}</td>;
+            })}
           </tr>
         ))}
       </tbody>
@@ -112,11 +116,11 @@ const SearchData = ({ data, setSearchResults }) => {
 const Search = (props) => {
   console.log(props.userData.name);
   const filteredData = Dataset.filter((item) => {
-    return item['Manufacturer'].includes('Airbus') ; // props.userData.name   //add username inside includes
+    return item;
+    // return item["Manufacturer"].includes("Boeing"); // props.userData.name   //add username inside includes
   });
 
   const [searchResults, setSearchResults] = useState(filteredData);
-  
 
   return (
     <div className={styles.container}>

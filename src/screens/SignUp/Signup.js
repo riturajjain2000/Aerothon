@@ -14,6 +14,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 
 function Signup() {
   const navigate = useNavigate();
@@ -61,7 +62,13 @@ function Signup() {
   return (
     <div className={styles.container}>
       <div className={styles.innerBox}>
-        <h1 className={styles.heading}>Signup</h1>
+        <h1 className={styles.logoText}>
+          S U S{" "}
+          <span>
+            <AirplanemodeActiveIcon color="secondary" sx={{ fontSize: 30 }} />
+          </span>{" "}
+          A I N
+        </h1>
 
         <InputControl
           label="Company Name"

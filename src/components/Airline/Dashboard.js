@@ -8,7 +8,7 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 
 function Dashboard(props) {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
 
   return (
     <div>
