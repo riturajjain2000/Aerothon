@@ -35,7 +35,6 @@ const Tables = () => {
 
     onValue(dataRef, (snapshot) => {
       const firebaseData = snapshot.val();
-      console.log(firebaseData);
 
       if (firebaseData) {
         const dataArray = Object.keys(firebaseData).map((key) => {
@@ -51,7 +50,13 @@ const Tables = () => {
           };
         });
 
-        setData(dataArray);
+        const filteredData = dataArray.filter((item) =>
+          Object.values(item).some(
+            (val) =>
+              typeof val === "string" && val.toLowerCase().includes("airbus")
+          )
+        );
+        setData(filteredData);
       }
     });
   }, [fetch]);
@@ -153,15 +158,16 @@ const Tables = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-        {sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
-          
-            <TableRow key={index}>
-              {columns.map((column) => (
-                <TableCell key={column}>{item[column]}</TableCell>
+            {sortedData
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((item, index) => (
+                <TableRow key={index}>
+                  {columns.map((column) => (
+                    <TableCell key={column}>{item[column]}</TableCell>
+                  ))}
+                </TableRow>
               ))}
-            </TableRow>
-          ))}
-        </TableBody>
+          </TableBody>
         </Table>
 
         <TablePagination
