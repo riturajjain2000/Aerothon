@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Dataset } from "../../Dataset";
 import styles from "./Search.module.css";
+
 const Table = ({ data }) => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
   const columns = [
@@ -111,10 +112,11 @@ const SearchData = ({ data, setSearchResults }) => {
 const Search = (props) => {
   console.log(props.userData.name);
   const filteredData = Dataset.filter((item) => {
-    return item["Manufacturer"].includes("Airbus"); //props.userData.name    // add username inside includes
+    return item['Manufacturer'].includes('Airbus') ; // props.userData.name   //add username inside includes
   });
 
   const [searchResults, setSearchResults] = useState(filteredData);
+  
 
   return (
     <div className={styles.container}>
