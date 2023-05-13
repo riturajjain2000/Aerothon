@@ -1,0 +1,7 @@
+.container {
+  padding: 20px;
+  overflow: auto;
+  height: 80vh;
+  margin: 20px;
+  background-color: #c0c0c0;
+}

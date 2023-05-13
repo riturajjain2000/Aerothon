@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import Search from "../../components/Recycler/Search";
-
+import styles from "./RecycleHome.module.css";
+import Dashboard from "../../components/Recycler/Dashboard";
 
 function RecycleHome(props) {
   const navigate = useNavigate();
@@ -18,27 +19,18 @@ function RecycleHome(props) {
   };
 
   return (
-    <div>
-      <div>
-        <Search />
-        <h1>
-          <Link to="/login">Login</Link>
-        </h1>
-        <br />
-        <h1>
-          <Link to="/signup">Signup</Link>
-        </h1>
+    <div className={styles.container}>
+      <div className={styles.profileContainer}>
+        <h2 className={styles.nameContainer}>
+          {props.userData.name ? `Welcome - ${props.userData.name}` : "Airbus"}
+        </h2>
+        <h2 className={styles.typeContainer}>Recycling facility</h2>
+        <button onClick={handleLogout}>Log Out</button>
       </div>
 
-      <br />
-      <br />
-      <br />
-
-      <h2>
-        {props.userData.name ? `Welcome - ${props.userData.name}` : "NAME"}
-      </h2>
-      <h2>Recycling facility</h2>
-      <button onClick={handleLogout}>Log Out</button>
+      <div>
+        <Dashboard userData={props.userData} />
+      </div>
     </div>
   );
 }

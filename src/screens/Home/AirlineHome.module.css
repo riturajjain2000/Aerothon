@@ -1,0 +1,41 @@
+.container {
+  background: linear-gradient(to right, #9900ff, #cc80ff);
+  padding: 20px;
+}
+.profileContainer {
+  width: 50%;
+  background: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  margin: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 10px;
+}
+.nameContainer {
+  font-size: 25px;
+}
+.typeContainer {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #7a7979;
+}
+button {
+  outline: none;
+  border: none;
+  background-color: #9900ff;
+  color: #fff;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 10px 16px;
+  width: 20%;
+  transition: 100ms;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #aa2aff;
+}

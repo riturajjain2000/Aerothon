@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Dataset } from "../../Dataset";
+import styles from "./Search.module.css";
 
 const Table = ({ data }) => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
@@ -92,13 +93,15 @@ const SearchData = ({ data, setSearchResults }) => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     const results = data.filter((item) => {
-      return (item['Part Name'].toLowerCase().includes(query)  ||
-      item['Material Composition'].toLowerCase().includes(query) ||
-      item['Age (years)'].toLowerCase().includes(query) ||
-      item['Condition'].toLowerCase().includes(query) ||
-      item['Location'].toLowerCase().includes(query) ||
-      item['Manufacturer'].toLowerCase().includes(query) ||
-      item['Aircraft Model'].toLowerCase().includes(query));
+      return (
+        item["Part Name"].toLowerCase().includes(query) ||
+        item["Material Composition"].toLowerCase().includes(query) ||
+        item["Age (years)"].toLowerCase().includes(query) ||
+        item["Condition"].toLowerCase().includes(query) ||
+        item["Location"].toLowerCase().includes(query) ||
+        item["Manufacturer"].toLowerCase().includes(query) ||
+        item["Aircraft Model"].toLowerCase().includes(query)
+      );
     });
     setSearchResults(results);
   };
@@ -110,7 +113,7 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState(Dataset);
 
   return (
-    <div>
+    <div className={styles.container}>
       <SearchData data={Dataset} setSearchResults={setSearchResults} />
       <Table data={searchResults} />
     </div>
