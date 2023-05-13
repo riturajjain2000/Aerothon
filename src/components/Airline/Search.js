@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Dataset } from "../../Dataset";
 import styles from "./Search.module.css";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
-const Table = () => {
+
+const Tables = () => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
   const [data, setData] = useState([]);
   const [fetch, setFetch] = useState(false);
@@ -21,7 +22,7 @@ const Table = () => {
           const obj = firebaseData[key];
           Object.keys(obj).forEach((prop) => {
             if (!isNaN(obj[prop])) {
-              obj[prop] = Math.round(obj[prop] * 100) / 100;
+              obj[prop] =  Math.round(obj[prop] * 100) / 100;
             }
           });
           return {
@@ -73,10 +74,18 @@ const Table = () => {
     }
     const aValue = a[sort.column];
     const bValue = b[sort.column];
-    if (sort.direction === "asc") {
-      return aValue.localeCompare(bValue);
+    if (typeof aValue === "string" && typeof bValue === "string") {
+      if (sort.direction === "asc") {
+        return aValue.localeCompare(bValue);
+      } else {
+        return bValue.localeCompare(aValue);
+      }
     } else {
-      return bValue.localeCompare(aValue);
+      if (sort.direction === "asc") {
+        return aValue - bValue;
+      } else {
+        return bValue - aValue;
+      }
     }
   });
 
@@ -94,15 +103,9 @@ const Table = () => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     if (query.length === 0) setFetch(!fetch);
-    const results = data.filter((item) => {
-      return (
-        item["Part Name"].toLowerCase().includes(query) ||
-        item["Material Composition"].toLowerCase().includes(query) ||
-        item["Age (years)"].toLowerCase().includes(query) ||
-        item["Condition"].toLowerCase().includes(query) ||
-        item["Location"].toLowerCase().includes(query) ||
-        item["Manufacturer"].toLowerCase().includes(query) ||
-        item["Aircraft Model"].toLowerCase().includes(query)
+     const results = data.filter((row) => {
+      return Object.keys(row).some((key) =>
+        row[key].toString().toLowerCase().includes( query)
       );
     });
 
@@ -112,31 +115,34 @@ const Table = () => {
   return (
     <>
       <input type="text" placeholder="Search..." onChange={handleSearch} />
-      <table>
-        <thead>
-          <tr>
+      
+      <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
             {columns.map((column) => (
-              <th key={column} onClick={() => handleSort(column)}>
+              <TableCell key={column} onClick={() => handleSort(column)}>
                 {column}
                 {sort.column === column
                   ? sort.direction === "asc"
                     ? "▲"
                     : "▼"
                   : ""}
-              </th>
+              </TableCell>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((item, index) => (
-            <tr key={index}>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((item, index) => (
+            <TableRow key={index}>
               {columns.map((column) => (
-                <td key={column}>{item[column]}</td>
+                <TableCell key={column}>{item[column]}</TableCell>
               ))}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
+    </TableContainer>
     </>
   );
 };
@@ -144,7 +150,7 @@ const Table = () => {
 const Search = () => {
   return (
     <div className={styles.container}>
-      <Table />
+      <Tables />
     </div>
   );
 };
