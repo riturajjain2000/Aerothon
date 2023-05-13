@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Dataset } from "../../Dataset";
 import styles from "./Search.module.css";
 import { getDatabase, ref, onValue } from "firebase/database";
-import { auth } from "../../firebase";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
-const Table = () => {
+const Tables = () => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
   const [data, setData] = useState([]);
   const [fetch, setFetch] = useState(false);
@@ -12,12 +18,6 @@ const Table = () => {
   useEffect(() => {
     const db = getDatabase();
     const dataRef = ref(db, "Data");
-
-    const results = data.filter((item) => {
-      return item["Manufacturer"].includes(auth.currentUser.displayName);
-    });
-
-    setData(results);
 
     onValue(dataRef, (snapshot) => {
       const firebaseData = snapshot.val();
@@ -80,10 +80,18 @@ const Table = () => {
     }
     const aValue = a[sort.column];
     const bValue = b[sort.column];
-    if (sort.direction === "asc") {
-      return aValue.localeCompare(bValue);
+    if (typeof aValue === "string" && typeof bValue === "string") {
+      if (sort.direction === "asc") {
+        return aValue.localeCompare(bValue);
+      } else {
+        return bValue.localeCompare(aValue);
+      }
     } else {
-      return bValue.localeCompare(aValue);
+      if (sort.direction === "asc") {
+        return aValue - bValue;
+      } else {
+        return bValue - aValue;
+      }
     }
   });
 
@@ -101,19 +109,9 @@ const Table = () => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     if (query.length === 0) setFetch(!fetch);
-    console.log("sdf");
-    console.log(auth.currentUser.displayName);
-    const results = data.filter((item) => {
-      return (
-        item["Part Name"].toLowerCase().includes(query) ||
-        item["Material Composition"].toLowerCase().includes(query) ||
-        item["Age (years)"].toLowerCase().includes(query) ||
-        item["Condition"].toLowerCase().includes(query) ||
-        item["Location"].toLowerCase().includes(query) ||
-        item["Manufacturer"]
-          .toLowerCase()
-          .includes(auth.currentUser.displayName) ||
-        item["Aircraft Model"].toLowerCase().includes(query)
+    const results = data.filter((row) => {
+      return Object.keys(row).some((key) =>
+        row[key].toString().toLowerCase().includes(query)
       );
     });
 
@@ -123,31 +121,34 @@ const Table = () => {
   return (
     <>
       <input type="text" placeholder="Search..." onChange={handleSearch} />
-      <table>
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <th key={column} onClick={() => handleSort(column)}>
-                {column}
-                {sort.column === column
-                  ? sort.direction === "asc"
-                    ? "▲"
-                    : "▼"
-                  : ""}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {sortedData.map((item, index) => (
-            <tr key={index}>
+
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
               {columns.map((column) => (
-                <td key={column}>{item[column]}</td>
+                <TableCell key={column} onClick={() => handleSort(column)}>
+                  {column}
+                  {sort.column === column
+                    ? sort.direction === "asc"
+                      ? "▲"
+                      : "▼"
+                    : ""}
+                </TableCell>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((item, index) => (
+              <TableRow key={index}>
+                {columns.map((column) => (
+                  <TableCell key={column}>{item[column]}</TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
@@ -155,7 +156,7 @@ const Table = () => {
 const Search = () => {
   return (
     <div className={styles.container}>
-      <Table />
+      <Tables />
     </div>
   );
 };

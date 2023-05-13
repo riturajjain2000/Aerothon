@@ -227,17 +227,23 @@ const Metrics = () => {
   }, [chartData]);
 
   return (
-    <div>
+
+    <Box p={5}>
       <h1>Key Metrics </h1>
       <select onChange={handleFilterChange}>
         <option value="rma">Recycled Material Metric</option>
         <option value="env">Environmental Impact Metrics</option>
         <option value="per">Performance Metrics</option>
       </select>
+      <Box sx={{
+        display:'flex',
+        alignItems:'center',justifyContent:'center'
+        
+       }}>
       <Box
         sx={{
-          height: filterOption === "rma" ? 300 : 700,
-          width: filterOption === "rma" ? 300 : 700,
+          height: filterOption === "rma" ? 300 : 600,
+          width: filterOption === "rma" ? 300 : 600,
         }}
       >
         <canvas id="myChart" />
@@ -251,7 +257,8 @@ const Metrics = () => {
       >
         <canvas id="materialBreakdownChart" />
       </Box>
-    </div>
+    </Box>
+    </Box>
   );
 };
 
