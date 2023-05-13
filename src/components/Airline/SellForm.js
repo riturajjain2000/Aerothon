@@ -21,6 +21,7 @@ function SellForm(props) {
     price: "",
     status: "INCOMPLETE",
   });
+  const columns = ["Manufacturer", "Recycler", "Part", "Price", "Status"];
 
   const [sellList, setSellList] = useState();
   const [buyList, setBuyList] = useState();
@@ -50,10 +51,7 @@ function SellForm(props) {
     }
 
     setErrorMsg("");
-    setOrderData((prev) => ({
-      ...prev,
-      manufacturer: auth.currentUser.displayName,
-    }));
+
     const userId = auth.currentUser.uid;
     console.log(userId);
     console.log(orderData);
@@ -75,7 +73,15 @@ function SellForm(props) {
     <div className={styles.container}>
       <div className={styles.innerBox}>
         <h1 className={styles.heading}>Sell A Part</h1>
-
+        <InputControl
+          label="Manufacturer Name"
+          onChange={(event) =>
+            setOrderData((prev) => ({
+              ...prev,
+              manufacturer: event.target.value,
+            }))
+          }
+        />
         <InputControl
           label="Recycler Name"
           onChange={(event) =>
@@ -103,14 +109,61 @@ function SellForm(props) {
           </button>
         </div>
       </div>
-      {/* <div>
-        <ul>
-          {sellList &&
-            sellList.map((myList) => {
-              return <li>{myList}</li>;
-            })}
-        </ul>
-      </div> */}
+      <div className={styles.listBox}>
+        <h4 className={styles.listHead}>Selling Order You Made</h4>
+        <table className={styles.listContainer}>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {sellList &&
+              sellList.map((item, index) => (
+                <tr key={index}>
+                  {
+                    <>
+                      <td key={1}>{item.manufacturer}</td>
+                      <td key={2}>{item.Recycler}</td>
+                      <td key={3}>{item.part}</td>
+                      <td key={4}>{item.price}</td>
+                      <td key={5}>{item.status}</td>
+                    </>
+                  }
+                </tr>
+              ))}
+          </tbody>
+        </table>
+
+        <h4 className={styles.listHead}>Buying Requests that you have </h4>
+        <table className={styles.listContainer}>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th key={column}>{column}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {buyList &&
+              buyList.map((item, index) => (
+                <tr key={index}>
+                  {
+                    <>
+                      <td key={1}>{item.manufacturer}</td>
+                      <td key={2}>{item.Recycler}</td>
+                      <td key={3}>{item.part}</td>
+                      <td key={4}>{item.price}</td>
+                      <td key={5}>{item.status}</td>
+                    </>
+                  }
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

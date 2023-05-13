@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dataset } from "../../Dataset";
 import styles from "./Search.module.css";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { auth } from "../../firebase";
 
 const Table = () => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
@@ -11,6 +12,12 @@ const Table = () => {
   useEffect(() => {
     const db = getDatabase();
     const dataRef = ref(db, "Data");
+
+    const results = data.filter((item) => {
+      return item["Manufacturer"].includes(auth.currentUser.displayName);
+    });
+
+    setData(results);
 
     onValue(dataRef, (snapshot) => {
       const firebaseData = snapshot.val();
@@ -94,6 +101,8 @@ const Table = () => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     if (query.length === 0) setFetch(!fetch);
+    console.log("sdf");
+    console.log(auth.currentUser.displayName);
     const results = data.filter((item) => {
       return (
         item["Part Name"].toLowerCase().includes(query) ||
@@ -101,7 +110,9 @@ const Table = () => {
         item["Age (years)"].toLowerCase().includes(query) ||
         item["Condition"].toLowerCase().includes(query) ||
         item["Location"].toLowerCase().includes(query) ||
-        item["Manufacturer"].toLowerCase().includes(query) ||
+        item["Manufacturer"]
+          .toLowerCase()
+          .includes(auth.currentUser.displayName) ||
         item["Aircraft Model"].toLowerCase().includes(query)
       );
     });
