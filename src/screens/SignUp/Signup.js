@@ -43,8 +43,8 @@ function Signup() {
           displayName: values.name,
         });
 
-        const type = { type: values.type };
-        const data = await storeData(type, user.uid);
+        const info = { type: values.type, name: values.name };
+        const data = await storeData(info, user.uid);
         console.log(data);
 
         if (values.type == "airlines/aircraft") {

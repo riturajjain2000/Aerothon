@@ -116,8 +116,8 @@ const SearchData = ({ data, setSearchResults }) => {
 const Search = (props) => {
   console.log(props.userData.name);
   const filteredData = Dataset.filter((item) => {
-    return item;
-    // return item["Manufacturer"].includes("Boeing"); // props.userData.name   //add username inside includes
+    // return item;
+    return item["Manufacturer"].includes(props.userData.name); // props.userData.name   //add username inside includes
   });
 
   const [searchResults, setSearchResults] = useState(filteredData);

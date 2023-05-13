@@ -28,7 +28,7 @@ function Dashboard(props) {
         </Tabs>
         {value == 0 && <Search userData={props.userData} />}
         {value == 1 && <Metrics />}
-        {value == 2 && <SellForm />}
+        {value == 2 && <SellForm userData={props.userData} />}
       </Paper>
     </div>
   );
