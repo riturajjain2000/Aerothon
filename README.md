@@ -14,3 +14,11 @@ facilities to facilitate the repurposing and recycling of end-of-life aircraft c
  - Node
  - Material UI
  
+## UI Shots
+
+<img src="/ss/ss1.PNG">
+<img src="/ss/ss2.PNG">
+<img src="/ss/ss3.PNG">
+<img src="/ss/ss4.PNG">
+<img src="/ss/ss5.PNG">
+
