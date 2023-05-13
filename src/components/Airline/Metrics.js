@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Chart from "chart.js/auto";
 import MetricsData from "../../getConfig";
+import { Box } from "@mui/material";
 
 const Metrics = () => {
   const [chartData, setChartData] = useState({});
@@ -227,20 +228,29 @@ const Metrics = () => {
 
   return (
     <div>
-      <h1>Key Metrics Dashboard</h1>
+      <h1>Key Metrics </h1>
       <select onChange={handleFilterChange}>
-     
         <option value="rma">Recycled Material Metric</option>
         <option value="env">Environmental Impact Metrics</option>
         <option value="per">Performance Metrics</option>
       </select>
-      <canvas id="myChart" width="200" height="200"></canvas>(
-      {filterOption === "per" ? (
-        <canvas id="materialBreakdownChart" width="200" height="200" />
-      ) : (
-        <></>
-      )}
-      )
+      <Box
+        sx={{
+          height: filterOption === "rma" ? 300 : 600,
+          width: filterOption === "rma" ? 300 : 600,
+        }}
+      >
+        <canvas id="myChart" />
+      </Box>
+      <Box
+        sx={{
+          height: 600,
+          width: 600,
+          display: filterOption === "rma" ? "flex" : "none",
+        }}
+      >
+        <canvas id="materialBreakdownChart" />
+      </Box>
     </div>
   );
 };
