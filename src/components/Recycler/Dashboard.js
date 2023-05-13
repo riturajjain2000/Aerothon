@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Search from "./Search";
 import Metrics from "./Metrics";
-import BuyList from "./BuyList";
+import BuyForm from "./BuyForm";
 
 import Paper from "@mui/material/Paper";
 import Tab from "@mui/material/Tab";
@@ -27,7 +27,7 @@ function Dashboard(props) {
         </Tabs>
         {value == 0 && <Search userData={props.userData} />}
         {value == 1 && <Metrics />}
-        {/* {value == 2 && <BuyList />} */}
+        {value == 2 && <BuyForm userData={props.userData} />}
       </Paper>
     </div>
   );
