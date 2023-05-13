@@ -4,43 +4,34 @@ import MetricsData from "../../getConfig";
 
 const Metrics = () => {
   const [chartData, setChartData] = useState({});
-  const [filterOption, setFilterOption] = useState("new");
+  const [filterOption, setFilterOption] = useState("rma");
 
   useEffect(() => {
     fetchChartData(filterOption);
   }, [filterOption]);
 
   const fetchChartData = (option) => {
-
     if (option === "per") {
-    const chartLabels = ['Processing Accuracy (%)', 'Turnaround Time (hours)'];
-    const processingAccuracy = parseFloat(MetricsData['Recycling Rate (%)']).toFixed(2);
-    const turnaroundTime = Math.round(Math.random() * 24);
+      const chartLabels = [
+        "Processing Accuracy (%)",
+        "Turnaround Time (hours)",
+      ];
+      const processingAccuracy = parseFloat(
+        MetricsData["Recycling Rate (%)"]
+      ).toFixed(2);
+      const turnaroundTime = Math.round(Math.random() * 24);
 
-   
-    const data = {
-      labels: chartLabels,
-      datasets: [
-        {
-          label: 'Performance Metrics',
-          data: [processingAccuracy, turnaroundTime],
-          backgroundColor: [
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-          ],
-          borderColor: [
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    };
-    setChartData(data);
-    
-    
-
-
+      const data = {
+        labels: chartLabels,
+        datasets: [
+          {
+            label: "Performance Metrics",
+            data: [processingAccuracy, turnaroundTime],
+            backgroundColor: ["#007bff", "#28a745"],
+          },
+        ],
+      };
+      setChartData(data);
     } else if (option === "env") {
       const chartLabels = [
         "Carbon Footprint (kg CO2e)",
@@ -63,7 +54,7 @@ const Metrics = () => {
         MetricsData["Energy Consumption - Recycled Parts (kWh)"],
         MetricsData["Toxicity Score - Recycled Parts"],
       ];
-  
+
       const savedData = [
         MetricsData["Carbon Footprint Saved (kg CO2e)"],
         MetricsData["Water Usage Saved (liters)"],
@@ -71,9 +62,7 @@ const Metrics = () => {
         MetricsData["Energy Consumption Saved (kWh)"],
         MetricsData["Toxicity Score Difference"],
       ];
-  
-     
-  
+
       const data = {
         labels: chartLabels,
         datasets: [
@@ -97,34 +86,22 @@ const Metrics = () => {
 
       setChartData(data);
     } else if (option === "rma") {
-
-      const chartLabels = ['Recycling Rate (%)', 'Unused Material (%)'];
+      const chartLabels = ["Recycling Rate (%)", "Unused Material (%)"];
       const materialComposition = MetricsData["Material Composition"];
       const recyclingRate = parseFloat(MetricsData["Recycling Rate (%)"]);
       const repurposedRate = 100 - recyclingRate;
-      const chartData =
-      
-      {
+      const chartData = {
         labels: chartLabels,
-        datasets: [{
-          label: 'Recycling Rate',
-          data: [recyclingRate, repurposedRate],
-          backgroundColor: [
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(75, 192, 192, 0.4)',
-          ],
-          borderColor: [
-            'rgba(75, 192, 192, 1)',
-            'rgba(75, 192, 192, 1)',
-          ],
-          borderWidth: 1,
-        }],
+        datasets: [
+          {
+            label: "Recycling Rate",
+            data: [recyclingRate, repurposedRate],
+            backgroundColor: ["#007bff", "#991000"],
+          },
+        ],
       };
       setChartData(chartData);
     }
-   
-
-    
   };
 
   const handleFilterChange = (e) => {
@@ -134,25 +111,24 @@ const Metrics = () => {
   useEffect(() => {
     const chartElement = document.getElementById("myChart");
 
-    const materialchartElement = document.getElementById("materialBreakdownChart");
+    const materialchartElement = document.getElementById(
+      "materialBreakdownChart"
+    );
 
     const materialBreakdownChart = new Chart(materialchartElement, {
-      type: 'bar',
+      type: "bar",
       data: {
-        labels: ['Metals', 'Composite'],
-        datasets: [{
-          label: 'Material Breakdown',
-          data: [MetricsData['Renewable Material Content (%)'], 100 - MetricsData['Renewable Material Content (%)']],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-          ],
-          borderWidth: 1,
-        }],
+        labels: ["Metals", "Composite"],
+        datasets: [
+          {
+            label: "Material Breakdown",
+            data: [
+              MetricsData["Renewable Material Content (%)"],
+              100 - MetricsData["Renewable Material Content (%)"],
+            ],
+            backgroundColor: ["#991000", "#007bff"],
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -180,88 +156,93 @@ const Metrics = () => {
       },
     });
 
+    const myChart =
+      filterOption === "env"
+        ? new Chart(chartElement, {
+            type: "bar",
+            data: chartData,
+            options: {
+              responsive: true,
+              legend: {
+                display: true,
+                position: "bottom",
+              },
 
-
-    const myChart = filterOption  === "env"  ? new Chart(chartElement, {
-      type: "bar",
-      data: chartData,
-      options: {
-        responsive: true,
-        legend: {
-          display: true,
-          position: "bottom",
-        },
-
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
+              scales: {
+                xAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
               },
             },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
+          })
+        : filterOption === "per"
+        ? new Chart(chartElement, {
+            type: "bar",
+            data: chartData,
+            options: {
+              responsive: true,
+              legend: {
+                display: true,
+                position: "bottom",
               },
-            },
-          ],
-        },
-      },
-    }) :( filterOption  === "per" ? 
-    new Chart(chartElement, {
-      type: 'bar',
-      data: chartData,
-      options:  {
-        responsive: true,
-        legend: {
-          display: true,
-          position: "bottom",
-        },
 
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
+              scales: {
+                xAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
               },
             },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-            },
-          ],
-        },
-      },
-    }) :  new Chart(chartElement, {
-      type: 'doughnut',
-      data:chartData,
-    }))
-    return () => {myChart.destroy();
-      materialBreakdownChart.destroy();}
+          })
+        : new Chart(chartElement, {
+            type: "doughnut",
+            data: chartData,
+          });
+    return () => {
+      myChart.destroy();
+      materialBreakdownChart.destroy();
+    };
   }, [chartData]);
 
   return (
     <div>
       <h1>Key Metrics Dashboard</h1>
       <select onChange={handleFilterChange}>
-        <option value="rma">Recycled Material Metric</option> // Add new Chart
-        Type
+     
+        <option value="rma">Recycled Material Metric</option>
         <option value="env">Environmental Impact Metrics</option>
-        <option value="per">Performance Metrics</option> // Add new Chart
-        Type
+        <option value="per">Performance Metrics</option>
       </select>
-      <canvas id="myChart" width="400" height="400"></canvas>
-      <canvas style={{display : filterOption === 'rma' ?'flex':'gone'}}  id="materialBreakdownChart" width="400" height="400" /> 
+      <canvas id="myChart" width="200" height="200"></canvas>(
+      {filterOption === "per" ? (
+        <canvas id="materialBreakdownChart" width="200" height="200" />
+      ) : (
+        <></>
+      )}
+      )
     </div>
   );
 };
 
 export default Metrics;
-
-
-
