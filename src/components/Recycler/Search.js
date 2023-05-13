@@ -1,9 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dataset } from "../../Dataset";
 import styles from "./Search.module.css";
+import { getDatabase, ref, onValue } from "firebase/database";
 
-const Table = ({ data }) => {
+const Table = () => {
   const [sort, setSort] = useState({ column: null, direction: "desc" });
+  const [data, setData] = useState([]);
+  const [fetch, setFetch] = useState(false);
+
+  useEffect(() => {
+    const db = getDatabase();
+    const dataRef = ref(db, "Data");
+
+    onValue(dataRef, (snapshot) => {
+      const firebaseData = snapshot.val();
+      console.log(firebaseData);
+
+      if (firebaseData) {
+        const dataArray = Object.keys(firebaseData).map((key) => {
+          const obj = firebaseData[key];
+          Object.keys(obj).forEach((prop) => {
+            if (!isNaN(obj[prop])) {
+              obj[prop] =  Math.round(obj[prop] * 100) / 100;
+            }
+          });
+          return {
+            id: key,
+            ...obj,
+          };
+        });
+
+        setData(dataArray);
+      }
+    });
+  }, [fetch]);
+
   const columns = [
     "Age (years)",
     "Condition",
@@ -60,38 +91,9 @@ const Table = ({ data }) => {
     }
   };
 
-  return (
-    <table>
-      <thead>
-        <tr>
-          {columns.map((column) => (
-            <th key={column} onClick={() => handleSort(column)}>
-              {column}
-              {sort.column === column
-                ? sort.direction === "asc"
-                  ? "▲"
-                  : "▼"
-                : ""}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {sortedData.map((item, index) => (
-          <tr key={index}>
-            {columns.map((column) => (
-              <td key={column}>{item[column]}</td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
-const SearchData = ({ data, setSearchResults }) => {
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
+    if (query.length === 0) setFetch(!fetch);
     const results = data.filter((item) => {
       return (
         item["Part Name"].toLowerCase().includes(query) ||
@@ -103,19 +105,46 @@ const SearchData = ({ data, setSearchResults }) => {
         item["Aircraft Model"].toLowerCase().includes(query)
       );
     });
-    setSearchResults(results);
+
+    setData(results);
   };
 
-  return <input type="text" placeholder="Search..." onChange={handleSearch} />;
+  return (
+    <>
+      <input type="text" placeholder="Search..." onChange={handleSearch} />
+      <table>
+        <thead>
+          <tr>
+            {columns.map((column) => (
+              <th key={column} onClick={() => handleSort(column)}>
+                {column}
+                {sort.column === column
+                  ? sort.direction === "asc"
+                    ? "▲"
+                    : "▼"
+                  : ""}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {sortedData.map((item, index) => (
+            <tr key={index}>
+              {columns.map((column) => (
+                <td key={column}>{item[column]}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
 };
 
 const Search = () => {
-  const [searchResults, setSearchResults] = useState(Dataset);
-
   return (
     <div className={styles.container}>
-      <SearchData data={Dataset} setSearchResults={setSearchResults} />
-      <Table data={searchResults} />
+      <Table />
     </div>
   );
 };
